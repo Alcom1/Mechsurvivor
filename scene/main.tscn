@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://dfotpht2gswtj"]
+
+[ext_resource type="Script" uid="uid://cevhwi1d56mtf" path="res://script/player.gd" id="1_1bvp3"]
+[ext_resource type="Script" uid="uid://b1hselcytonyw" path="res://script/bean.gd" id="2_lquwl"]
+[ext_resource type="Texture2D" uid="uid://cxbogd4q5r3ta" path="res://image/test/test_lower.svg" id="3_7mycd"]
+[ext_resource type="Texture2D" uid="uid://d3plmwaiusskm" path="res://image/test/test_upper.svg" id="4_272bh"]
+[ext_resource type="Texture2D" uid="uid://cwow4s26nw2mp" path="res://image/test/test_x.svg" id="5_lquwl"]
+
+[node name="main" type="Node2D" unique_id=360830430]
+
+[node name="mark" type="Sprite2D" parent="." unique_id=164326903]
+position = Vector2(576, 324)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_lquwl")
+
+[node name="player" type="Node2D" parent="." unique_id=123767277]
+script = ExtResource("1_1bvp3")
+
+[node name="bean" type="Node2D" parent="player" unique_id=975613388]
+position = Vector2(128, 128)
+scale = Vector2(0.25, 0.25)
+script = ExtResource("2_lquwl")
+
+[node name="lower" type="Node2D" parent="player/bean" unique_id=1430855615]
+
+[node name="Sprite2D" type="Sprite2D" parent="player/bean/lower" unique_id=1289925579]
+rotation = 1.5707964
+texture = ExtResource("3_7mycd")
+
+[node name="upper" type="Node2D" parent="player/bean" unique_id=1017490342]
+
+[node name="Sprite2D" type="Sprite2D" parent="player/bean/upper" unique_id=1725365893]
+rotation = 1.5707964
+texture = ExtResource("4_272bh")
+
+[node name="camera" type="Camera2D" parent="player" unique_id=1283278748]
