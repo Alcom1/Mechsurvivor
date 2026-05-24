@@ -3,15 +3,25 @@ extends Node2D
 # Acceleration
 @export var accel = 3000;
 
-# Velocity
+# Speed/Velocity
 var speed = 0;
 @export var speedMax = 500;
+@export var speedMaxSprint = 1000;
 var velocity = Vector2.ZERO;
 var driven = Vector2.ZERO;
+var isDriven : bool :
+	get: return driven.length_squared() > 0
+var isMoving : bool :
+	get: return velocity.length_squared() > 0
 
-# Position/rotation
+# Position/Rotation
 var facingLower = Vector2.UP;
 var facingUpper = Vector2.UP;
+
+# Sprinting
+var isSprint = false;
+var speedMaxCurr : int :
+	get: return speedMaxSprint if isSprint else speedMax
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -23,7 +33,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	# Bean is driven to move in direction
-	if driven.length_squared() > 0:
+	if isDriven:
 		velocity += driven.normalized() * accel * delta;
 		$lower.look_at(							# Lower half faces...
 			position + 							# Position plus...
@@ -31,17 +41,13 @@ func _process(delta: float) -> void:
 				velocity.normalized(), 			# The normalized velocity
 				accel / 375 * delta));			# slerp rate is based on acceleration
 	
-	# Bean is not driven - accelerates to stopping.
-	if driven.length_squared() == 0 && velocity.length_squared() > 0:
+	# Bean is not driven - decelerates to stopping.
+	if (!isDriven && isMoving) || velocity.length() > speedMaxCurr:
 		var decelFactor = velocity.normalized() * -accel * delta;
 		velocity += decelFactor;
 		
 		if velocity.dot(decelFactor) > 0:
 			velocity = Vector2.ZERO;
-		
-	# Limit to max velocity
-	if velocity.length() > speedMax:
-		velocity = velocity.normalized() * speedMax;
 	
 	# Update position from velocity
 	position += velocity * delta;
@@ -55,4 +61,12 @@ func drive(dir: Vector2) -> void:
 	
 func face(target: Vector2) -> void:
 	$upper.look_at(target);
+	pass
+	
+func sprint() -> void:
+	isSprint = true;
+	pass
+	
+func run() -> void:
+	isSprint = false;
 	pass

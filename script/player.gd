@@ -23,6 +23,10 @@ func _process(delta: float) -> void:
 	#Control player character
 	$bean.drive(direction);
 	$bean.face(get_global_mouse_position());
+	if Input.is_action_pressed("player_sprint"):
+		$bean.sprint();
+	else:
+		$bean.run();
 	
 	#Control camera
 	$camera.position = $bean.position
