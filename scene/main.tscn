@@ -28,6 +28,7 @@ rotation = 1.5707964
 texture = ExtResource("3_7mycd")
 
 [node name="upper" type="Node2D" parent="player/bean" unique_id=1017490342]
+scale = Vector2(4, 4)
 
 [node name="Sprite2D" type="Sprite2D" parent="player/bean/upper" unique_id=1725365893]
 rotation = 1.5707964

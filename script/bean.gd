@@ -15,8 +15,7 @@ var isMoving : bool :
 	get: return velocity.length_squared() > 0
 
 # Position/Rotation
-var facingLower = Vector2.UP;
-var facingUpper = Vector2.UP;
+var target = Vector2.ZERO;
 
 # Sprinting
 var isSprint = false;
@@ -33,13 +32,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	# Bean is driven to move in direction
-	if isDriven:
+	if isDriven && velocity.length() < speedMaxCurr:
 		velocity += driven.normalized() * accel * delta;
-		$lower.look_at(							# Lower half faces...
-			position + 							# Position plus...
-			$lower.global_transform.x.slerp(	# Forward direction of lower slerped to...
-				velocity.normalized(), 			# The normalized velocity
-				accel / 375 * delta));			# slerp rate is based on acceleration
 	
 	# Bean is not driven - decelerates to stopping.
 	if (!isDriven && isMoving) || velocity.length() > speedMaxCurr:
@@ -52,6 +46,16 @@ func _process(delta: float) -> void:
 	# Update position from velocity
 	position += velocity * delta;
 	
+	# Update lower facing direction
+	$lower.look_at(							# Lower half faces...
+		position + 							# Position plus...
+		$lower.global_transform.x.slerp(	# Forward direction of lower slerped to...
+			velocity.normalized(), 			# The normalized velocity
+			accel / 375 * delta));			# slerp rate is based on acceleration
+	
+	# Update upper facing direction
+	$upper.look_at(target);
+	
 	pass
 
 # Drive this mech in a direction
@@ -59,8 +63,8 @@ func drive(dir: Vector2) -> void:
 	driven = dir;
 	pass
 	
-func face(target: Vector2) -> void:
-	$upper.look_at(target);
+func face(tar: Vector2) -> void:
+	target = tar;
 	pass
 	
 func sprint() -> void:
