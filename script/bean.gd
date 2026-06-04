@@ -5,8 +5,10 @@ extends Node2D
 
 # Speed/Velocity
 var speed = 0;
-@export var speedMax = 500;
-@export var speedMaxSprint = 1000;
+@export var speedMax = 200;
+@export var speedStrafe = 150;
+@export var speedBack = 100;
+@export var sprintMultiplier = 3;
 var velocity = Vector2.ZERO;
 var driven = Vector2.ZERO;
 var isDriven : bool :
@@ -19,8 +21,10 @@ var target = Vector2.ZERO;
 
 # Sprinting
 var isSprint = false;
-var speedMaxCurr : int :
-	get: return speedMaxSprint if isSprint else speedMax
+var upperAngle : int :		# Angle between upper body and current velocity
+	get: return abs(velocity.angle_to($upper.global_transform.x) * 180 / PI)
+var speedMaxCurr : int :	# Current maximum speed based on sprinting and uppper body angle for run/strafe/backwards
+	get: return (speedMax if upperAngle < 60 else speedStrafe if upperAngle < 150 else speedBack) * (sprintMultiplier if isSprint else 1)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
