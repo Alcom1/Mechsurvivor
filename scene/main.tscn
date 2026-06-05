@@ -18,17 +18,16 @@ script = ExtResource("1_1bvp3")
 
 [node name="bean" type="Node2D" parent="player" unique_id=975613388]
 position = Vector2(128, 128)
-scale = Vector2(0.25, 0.25)
 script = ExtResource("2_lquwl")
 
 [node name="lower" type="Node2D" parent="player/bean" unique_id=1430855615]
+scale = Vector2(0.25, 0.25)
 
 [node name="Sprite2D" type="Sprite2D" parent="player/bean/lower" unique_id=1289925579]
 rotation = 1.5707964
 texture = ExtResource("3_7mycd")
 
 [node name="upper" type="Node2D" parent="player/bean" unique_id=1017490342]
-scale = Vector2(4, 4)
 
 [node name="Sprite2D" type="Sprite2D" parent="player/bean/upper" unique_id=1725365893]
 rotation = 1.5707964
